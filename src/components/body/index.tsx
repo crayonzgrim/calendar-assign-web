@@ -12,9 +12,10 @@ export const Body = styled((props: BodyProps) => {
   /** Function */
 
   /** Render */
-  return (
-    <Box {...others}>이 자리에는 클릭한 날짜에 맞는 메모가 들어갈 예정</Box>
-  )
+  return <Box {...others}>Body Section</Box>
 })(({ theme }) => {
-  return css``
+  return css`
+    margin-top: 20px;
+    border: 1px dashed red;
+  `
 })

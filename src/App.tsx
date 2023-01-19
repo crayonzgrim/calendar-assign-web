@@ -1,15 +1,23 @@
 import React from 'react'
-import './App.css'
-import { Body, CustomCalendar, Header } from './components'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Box, styled, css } from '@mui/material'
+import { Body, CalendarLib, CustomCalendar, Header } from './components'
 
-function App() {
+const App = styled(() => {
   return (
-    <div className="App">
-      <Header />
-      <CustomCalendar />
-      <Body />
-    </div>
+    <Box>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/custom" element={<CustomCalendar />} />
+          <Route path="/new" element={<CalendarLib />} />
+        </Routes>
+        <Body />
+      </BrowserRouter>
+    </Box>
   )
-}
+})(({ theme }) => {
+  return css``
+})
 
 export default App
