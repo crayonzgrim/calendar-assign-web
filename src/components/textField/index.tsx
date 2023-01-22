@@ -22,8 +22,8 @@ export const TextField = styled((props: TextFieldProps) => {
   return (
     <MuiTextField
       fullWidth
-      label={'hello'}
-      value={value}
+      label={label ?? ''}
+      value={value ?? ''}
       margin={'dense'}
       size={'small'}
       onChange={() => {}}

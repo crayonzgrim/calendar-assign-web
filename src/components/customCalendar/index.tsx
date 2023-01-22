@@ -26,16 +26,16 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
       title: 'Title-1',
       start: '2023-01-12',
       end: '2023-01-17',
-      color: '#555',
-      memo: 'This is a memo'
+      memo: 'This is a memo',
+      color: '#555'
     },
     {
       id: crypto.randomUUID(),
       title: 'Title-2',
       start: '2023-01-14',
       end: '2023-01-23',
-      color: '#013220',
-      memo: 'This is a memo'
+      memo: 'This is a memo',
+      color: '#013220'
     }
   ])
 
@@ -98,7 +98,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   /** Render */
   return (
     <Box {...others}>
-      <DateForm data={data} toValue={toValue} fromValue={fromValue} />
+      <DateForm data={data} setData={setData} />
       <FullCalendar
         // plugins={[dayGridPlugin, interactionPlugin]}
         plugins={[dayGridPlugin]}

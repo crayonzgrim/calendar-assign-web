@@ -8,6 +8,7 @@ const initialState: EventInput[] = [
     title: '',
     start: new Date().toISOString().replace(/T.*$/, ''),
     end: new Date().toISOString().replace(/T.*$/, ''),
+    memo: '',
     color: '#000'
   }
 ]
