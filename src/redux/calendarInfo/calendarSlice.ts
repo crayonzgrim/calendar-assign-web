@@ -5,11 +5,11 @@ import { EventInput } from '@fullcalendar/core'
 const initialState: EventInput[] = [
   {
     id: crypto.randomUUID(),
-    title: '',
+    title: 'initial-test',
     start: new Date().toISOString().replace(/T.*$/, ''),
     end: new Date().toISOString().replace(/T.*$/, ''),
-    memo: '',
-    color: '#000'
+    memo: 'helloworld',
+    color: '#555'
   }
 ]
 
@@ -17,7 +17,7 @@ export const calendarSlice = createSlice({
   name: 'calendarInfo',
   initialState,
   reducers: {
-    addCalendarData: (state, action: PayloadAction<EventInput[]>) => {
+    addCalendarData: (state, action: PayloadAction<EventInput>) => {
       if (action.payload) {
         state.push(action.payload)
       }

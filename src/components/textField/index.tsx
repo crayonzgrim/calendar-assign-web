@@ -14,19 +14,20 @@ type TextFieldProps = {
 
 export const TextField = styled((props: TextFieldProps) => {
   /** Property */
-  const { label = '', value = '' } = props
+  const { label = '', value = '', onChange, ...others } = props
 
   /** Function */
 
   /** Render */
   return (
     <MuiTextField
+      {...others}
       fullWidth
       label={label ?? ''}
       value={value ?? ''}
       margin={'dense'}
       size={'small'}
-      onChange={() => {}}
+      onChange={onChange}
     />
   )
 })(({ theme }) => {
