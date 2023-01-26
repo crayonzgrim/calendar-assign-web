@@ -1,5 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { styled, css, Box, Button } from '@mui/material'
+import {
+  styled,
+  css,
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel
+} from '@mui/material'
 import { DateSelectArg, EventInput } from '@fullcalendar/core'
 import { TextField } from '../textField'
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,6 +44,8 @@ export const DateForm = styled((props: DateFormProps) => {
       const name = e.target.name
       const value = e.target.value
 
+      console.log('change > ', { ...config, [name]: value })
+
       setConfig({
         ...config,
         [name]: value
@@ -46,9 +55,10 @@ export const DateForm = styled((props: DateFormProps) => {
   )
 
   const handleAddData = useCallback(() => {
+    console.log('config > ', config)
     dispatch(addCalendarData(config))
 
-    call(handleDateSelect)
+    // call(handleDateSelect)
   }, [config])
 
   useEffect(() => {
@@ -105,19 +115,27 @@ export const DateForm = styled((props: DateFormProps) => {
         required={false}
         onChange={(e) => handleChangeField(e)}
       />
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        {/* <FormControlLabel */}
+        {/*   label="All day" */}
+        {/*   labelPlacement={'start'} */}
+        {/*   control={<Checkbox onChange={(e) => handleChangeField(e)} />} */}
+        {/*   sx={{ mr: 'auto' }} */}
+        {/* /> */}
 
-      <Button
-        type="submit"
-        variant={'contained'}
-        onClick={handleAddData}
-        sx={{ mt: 2, width: '100px', ml: 'auto' }}
-      >
-        추가
-      </Button>
+        <Button
+          type="submit"
+          variant={'contained'}
+          onClick={handleAddData}
+          sx={{ mt: 2, width: '100px', ml: 'auto' }}
+        >
+          추가
+        </Button>
+      </Box>
     </Box>
   )
 })(({ theme }) => {
   return css`
-    padding: 0 10px;
+    padding: 0 40px;
   `
 })

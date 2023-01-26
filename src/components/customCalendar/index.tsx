@@ -24,25 +24,6 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
   const calendarInfo = useSelector((state: RootState) => state.addCalendar)
 
-  // const [data, setData] = useState<EventInput[]>([
-  //   {
-  //     id: crypto.randomUUID(),
-  //     title: 'Title-1',
-  //     start: '2023-01-12',
-  //     end: '2023-01-17',
-  //     memo: 'This is a memo',
-  //     color: '#555'
-  //   },
-  //   {
-  //     id: crypto.randomUUID(),
-  //     title: 'Title-2',
-  //     start: '2023-01-14',
-  //     end: '2023-01-23',
-  //     memo: 'This is a memo',
-  //     color: '#013220'
-  //   }
-  // ])
-
   const [config, setConfig] = useState<EventInput>({
     id: crypto.randomUUID(),
     title: '',
@@ -52,14 +33,13 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     color: '#000'
   })
 
-  console.log('config >> ', config)
-
   const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
 
   const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD format
 
   const [customTitle, setCustomTitle] = useState('')
 
+  console.log('calendarInfo >> ', calendarInfo)
   // const INITIAL_EVENTS: EventInput[] = [
   // {
   //   id: '1',
@@ -78,19 +58,13 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   // ]
 
   /** Function */
-  // const handleEvents = useCallback((event: EventApi[]) => {
-  // setCurrentEvents(event)
-  // console.log('event >> ', event)
-  // }, [])
-
   const handleDateSelect = useCallback(
     (selectInfo: DateSelectArg) => {
       // let title = prompt('hello world')?.trim()
       const calendarApi = selectInfo.view.calendar
+      // console.log(selectInfo)
 
       calendarApi.unselect()
-
-      console.log('calendarInfo >> ', calendarInfo)
 
       // calendarApi.addEvent(calendarInfo)
       //     id: new Date().toString(),
@@ -122,9 +96,9 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     [config]
   )
 
-  const handleEventClick = useCallback((data: EventClickArg) => {
-    // console.log(data)
-  }, [])
+  // const handleEventClick = useCallback((data: EventClickArg) => {
+  //   // console.log(data)
+  // }, [])
 
   useEffect(() => {
     // const calendarApi = selectInfo.view.calendar
@@ -150,21 +124,25 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
         sx={{ border: '0.5px solid lightGray', mb: 5, mx: 6 }}
       />
 
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        // plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
-        selectable={true}
-        editable={true}
-        initialEvents={calendarInfo}
-        // initialEvents={data}
-        // initialEvents={INITIAL_EVENTS}
-        locales={allLocales}
-        locale="ko"
-        // eventsSet={handleEvents}
-        select={handleDateSelect}
-        eventClick={handleEventClick}
-      />
+      <Box sx={{ px: 4 }}>
+        <FullCalendar
+          plugins={[dayGridPlugin]}
+          // plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          selectable={true}
+          editable={true}
+          // initialEvents={calendarInfo}
+          events={calendarInfo}
+          // addEvent={(event, [calendarInfo])}
+          // initialEvents={data}
+          // initialEvents={INITIAL_EVENTS}
+          locales={allLocales}
+          locale="ko"
+          // eventsSet={handleEvents}
+          select={handleDateSelect}
+          // eventClick={handleEventClick}
+        />
+      </Box>
     </Box>
   )
 })(({ theme }) => {
