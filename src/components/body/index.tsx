@@ -17,5 +17,6 @@ export const Body = styled((props: BodyProps) => {
   return css`
     margin-top: 20px;
     border: 1px dashed red;
+    padding: 0 20px;
   `
 })

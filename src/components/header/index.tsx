@@ -17,12 +17,19 @@ export const Header = styled((props: HeaderProps) => {
     <Box {...others}>
       <Typography> Header section </Typography>
       <Box>
-        <Link to="custom">
-          <Button variant="outlined">Full-Calendar</Button>
+        <Link to="/" style={{ marginRight: '10px', textDecoration: 'none' }}>
+          <Button variant="contained" size="small">
+            <Typography variant="caption">HOME</Typography>
+          </Button>
         </Link>
 
-        <Link to="new">
-          <Button variant="outlined">React-Calendar</Button>
+        <Link
+          to="/calendar"
+          style={{ marginRight: '10px', textDecoration: 'none' }}
+        >
+          <Button variant="contained" size="small">
+            Calendar
+          </Button>
         </Link>
       </Box>
     </Box>

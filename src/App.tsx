@@ -1,7 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Box, styled, css } from '@mui/material'
-import { Body, CalendarLib, CustomCalendar, Header } from './components'
+import { Body, CustomCalendar, Header } from './components'
+import { Home } from './components/home'
 
 const App = styled(() => {
   return (
@@ -9,8 +10,8 @@ const App = styled(() => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/custom" element={<CustomCalendar />} />
-          <Route path="/new" element={<CalendarLib />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/calendar" element={<CustomCalendar />} />
         </Routes>
         <Body />
       </BrowserRouter>

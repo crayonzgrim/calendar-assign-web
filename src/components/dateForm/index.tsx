@@ -44,8 +44,6 @@ export const DateForm = styled((props: DateFormProps) => {
       const name = e.target.name
       const value = e.target.value
 
-      console.log('change > ', { ...config, [name]: value })
-
       setConfig({
         ...config,
         [name]: value
@@ -55,15 +53,8 @@ export const DateForm = styled((props: DateFormProps) => {
   )
 
   const handleAddData = useCallback(() => {
-    console.log('config > ', config)
     dispatch(addCalendarData(config))
-
-    // call(handleDateSelect)
   }, [config])
-
-  useEffect(() => {
-    // console.log('calendarInfo >> ', calendarInfo)
-  }, [calendarInfo])
 
   /** Render */
   return (

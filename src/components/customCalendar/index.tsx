@@ -39,30 +39,11 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
   const [customTitle, setCustomTitle] = useState('')
 
-  console.log('calendarInfo >> ', calendarInfo)
-  // const INITIAL_EVENTS: EventInput[] = [
-  // {
-  //   id: '1',
-  //   title: '1111',
-  //     start: '2023-01-10',
-  //     end: '2023-01-20',
-  //     color: '#013220'
-  //   },
-  //   {
-  //     id: '2',
-  //     title: '2222',
-  //     start: '2023-01-17',
-  //     end: '2023-01-24',
-  //     color: '#FF0000'
-  //   }
-  // ]
-
   /** Function */
   const handleDateSelect = useCallback(
     (selectInfo: DateSelectArg) => {
       // let title = prompt('hello world')?.trim()
       const calendarApi = selectInfo.view.calendar
-      // console.log(selectInfo)
 
       calendarApi.unselect()
 
@@ -82,31 +63,22 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
           allDay: selectInfo.allDay
         })
       }
-
-      // if (title) {
-      //   calendarApi.addEvent({
-      //     id: new Date().toString(),
-      //     title,
-      //     start: selectInfo.startStr,
-      //     end: selectInfo.endStr,
-      //     allDay: selectInfo.allDay
-      //   })
-      // }
     },
     [config]
   )
 
-  // const handleEventClick = useCallback((data: EventClickArg) => {
-  //   // console.log(data)
-  // }, [])
+  const handleEventClick = useCallback(
+    (data: EventClickArg) => {
+      calendarInfo.map((info) => {
+        if (info.id === data.event.id) {
+          alert(info.memo)
+        }
 
-  useEffect(() => {
-    // const calendarApi = selectInfo.view.calendar
-    //
-    // if (calendarInfo) {
-    //   calendarApi.addEvent(calendarInfo)
-    // }
-  }, [calendarInfo])
+        return undefined
+      })
+    },
+    [calendarInfo]
+  )
 
   /** Render */
   return (
@@ -126,21 +98,16 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
       <Box sx={{ px: 4 }}>
         <FullCalendar
-          plugins={[dayGridPlugin]}
           // plugins={[dayGridPlugin, interactionPlugin]}
+          plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           selectable={true}
           editable={true}
-          // initialEvents={calendarInfo}
           events={calendarInfo}
-          // addEvent={(event, [calendarInfo])}
-          // initialEvents={data}
-          // initialEvents={INITIAL_EVENTS}
           locales={allLocales}
           locale="ko"
-          // eventsSet={handleEvents}
           select={handleDateSelect}
-          // eventClick={handleEventClick}
+          eventClick={handleEventClick}
         />
       </Box>
     </Box>
