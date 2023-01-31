@@ -1,18 +1,16 @@
-import { Box, TextField, styled, css, Typography, Divider } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react'
+import { Box, TextField, styled, css, Typography, Divider } from '@mui/material'
+import { useSelector } from 'react-redux'
+
 import FullCalendar from '@fullcalendar/react'
-import {
-  DateSelectArg,
-  EventApi,
-  EventClickArg,
-  EventInput
-} from '@fullcalendar/core'
+import { DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'
 import allLocales from '@fullcalendar/core/locales-all'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+
 import { DateForm } from '../dateForm'
-import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
+import { CalendarInput } from '../../types'
 
 type CustomCalendarProps = {
   //
@@ -22,9 +20,9 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   /** Property */
   const { ...others } = props
 
-  const calendarInfo = useSelector((state: RootState) => state.addCalendar)
+  const info = useSelector((state: RootState) => state.addCalendar)
 
-  const [config, setConfig] = useState<EventInput>({
+  const [config, setConfig] = useState<CalendarInput>({
     id: crypto.randomUUID(),
     title: '',
     start: '',
@@ -33,9 +31,9 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     color: '#000'
   })
 
-  const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
+  // const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
 
-  const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD format
+  // const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD format
 
   const [customTitle, setCustomTitle] = useState('')
 
@@ -47,7 +45,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
       calendarApi.unselect()
 
-      // calendarApi.addEvent(calendarInfo)
+      // calendarApi.addEvent(info)
       //     id: new Date().toString(),
       //     title,
       //     start: selectInfo.startStr,
@@ -67,17 +65,18 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     [config]
   )
 
+  console.log('calendarInfo >> ', info.calendarInfo)
   const handleEventClick = useCallback(
     (data: EventClickArg) => {
-      calendarInfo.map((info) => {
-        if (info.id === data.event.id) {
-          alert(info.memo)
-        }
-
-        return undefined
-      })
+      // calendarInfo.map((info) => {
+      //   if (info.id === data.event.id) {
+      //     alert(info.memo)
+      //   }
+      //
+      //   return undefined
+      // })
     },
-    [calendarInfo]
+    [info.calendarInfo]
   )
 
   /** Render */
@@ -103,7 +102,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
           initialView="dayGridMonth"
           selectable={true}
           editable={true}
-          events={calendarInfo}
+          events={info.calendarInfo}
           locales={allLocales}
           locale="ko"
           select={handleDateSelect}

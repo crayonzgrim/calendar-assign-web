@@ -1,21 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  styled,
-  css,
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel
-} from '@mui/material'
-import { DateSelectArg, EventInput } from '@fullcalendar/core'
-import { TextField } from '../textField'
+import { styled, css, Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
+import { DateSelectArg } from '@fullcalendar/core'
+
+import { TextField } from '../textField'
 import { RootState } from '../../redux/store'
-import { addCalendarData } from '../../redux/calendarInfo'
 import { call } from '../../utils/base'
+import { addInfo } from '../../redux/calendarInfo'
+import { CalendarInput } from '../../types'
 
 type DateFormProps = {
-  config: EventInput
+  config: CalendarInput
   setConfig: React.Dispatch<React.SetStateAction<any>>
   handleDateSelect: (selectInfo: DateSelectArg) => void
 
@@ -34,7 +29,7 @@ export const DateForm = styled((props: DateFormProps) => {
     ...others
   } = props
 
-  const calendarInfo = useSelector((state: RootState) => state.addCalendar)
+  // const calendarInfo = useSelector((state: RootState) => state.addCalendar)
 
   const dispatch = useDispatch()
 
@@ -52,8 +47,10 @@ export const DateForm = styled((props: DateFormProps) => {
     [config, setConfig]
   )
 
+  console.log('config > ', config)
+
   const handleAddData = useCallback(() => {
-    dispatch(addCalendarData(config))
+    dispatch(addInfo(config))
   }, [config])
 
   /** Render */
