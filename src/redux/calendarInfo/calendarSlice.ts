@@ -2,26 +2,33 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import produce from 'immer'
 
-import { CalendarInput } from '../../types'
+import { EventApi } from '@fullcalendar/core'
+import { CalendarInfoType } from '../../types'
+
+interface CalendarInfoInterface {
+  info: CalendarInfoType[]
+}
+
+const initialState: CalendarInfoInterface = {
+  info: []
+}
 
 export const calendarSlice = createSlice({
   name: 'calendar',
-  initialState: {
-    calendarInfo: []
-  },
+  initialState,
   reducers: {
-    addInfo: (state, { payload }: PayloadAction<CalendarInput | undefined>) => {
+    addInfo: (
+      state,
+      { payload }: { payload: CalendarInfoInterface; type: string }
+    ) => {
       if (payload) {
         console.log('payload', payload)
         return produce(payload, (draft) => {
           if (draft) {
             console.log('draft > ', draft)
-            // state.calendarInfo.push(payload)
+            // state.info.push({ ...payload })
           }
         })
-        // return state.calendarInfo.push({
-        //   action.payload
-        // })
       }
     }
   }

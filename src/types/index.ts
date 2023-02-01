@@ -1,8 +1,6 @@
-export type CalendarInput = {
-  id: string
-  title: string
-  start: string
-  end: string
-  memo: string
-  color: string
-}
+import { EventApi } from '@fullcalendar/core'
+
+export type CalendarInfoType = Pick<
+  EventApi,
+  'id' | 'title' | 'start' | 'end' | 'url' | 'backgroundColor'
+>

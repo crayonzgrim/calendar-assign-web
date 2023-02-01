@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { styled, css, Box, Button } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { DateSelectArg } from '@fullcalendar/core'
+import { DateSelectArg, EventApi } from '@fullcalendar/core'
 
 import { TextField } from '../textField'
 import { RootState } from '../../redux/store'
-import { call } from '../../utils/base'
 import { addInfo } from '../../redux/calendarInfo'
-import { CalendarInput } from '../../types'
+import { CalendarInfoType } from '../../types'
 
 type DateFormProps = {
-  config: CalendarInput
-  setConfig: React.Dispatch<React.SetStateAction<any>>
+  config: CalendarInfoType
+  setConfig: (value: CalendarInfoType) => void
+
   handleDateSelect: (selectInfo: DateSelectArg) => void
 
   customTitle: string
@@ -23,15 +23,17 @@ export const DateForm = styled((props: DateFormProps) => {
   const {
     config,
     setConfig,
+
     handleDateSelect,
+
     customTitle,
     setCustomTitle,
     ...others
   } = props
 
-  // const calendarInfo = useSelector((state: RootState) => state.addCalendar)
-
   const dispatch = useDispatch()
+
+  const calendarInfo = useSelector((state: RootState) => state.addCalendar)
 
   /** Function */
   const handleChangeField = useCallback(
@@ -39,18 +41,24 @@ export const DateForm = styled((props: DateFormProps) => {
       const name = e.target.name
       const value = e.target.value
 
-      setConfig({
-        ...config,
-        [name]: value
-      })
+      console.log(value)
+      if (name === 'start' || name === 'end') {
+        setConfig({
+          ...config,
+          [name]: new Date(value)
+        })
+      } else {
+        setConfig({
+          ...config,
+          [name]: value
+        })
+      }
     },
-    [config, setConfig]
+    [config]
   )
 
-  console.log('config > ', config)
-
   const handleAddData = useCallback(() => {
-    dispatch(addInfo(config))
+    // dispatch(addInfo(config))
   }, [config])
 
   /** Render */
@@ -74,7 +82,7 @@ export const DateForm = styled((props: DateFormProps) => {
       <TextField
         name="start"
         label="시작 날짜"
-        value={config.start}
+        value={config.start || ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}
@@ -82,7 +90,7 @@ export const DateForm = styled((props: DateFormProps) => {
       <TextField
         name="end"
         label="마지막 날짜"
-        value={config.end}
+        value={config.end || ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}
@@ -90,7 +98,7 @@ export const DateForm = styled((props: DateFormProps) => {
       <TextField
         name="memo"
         label="메모"
-        value={config.memo}
+        value={config.url}
         multiline={true}
         required={false}
         onChange={(e) => handleChangeField(e)}
@@ -99,7 +107,7 @@ export const DateForm = styled((props: DateFormProps) => {
         name="color"
         label="색상"
         type={'color'}
-        value={config.color}
+        value={config.backgroundColor}
         required={false}
         onChange={(e) => handleChangeField(e)}
       />

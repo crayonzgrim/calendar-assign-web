@@ -10,7 +10,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 import { DateForm } from '../dateForm'
 import { RootState } from '../../redux/store'
-import { CalendarInput } from '../../types'
+import { CalendarInfoType } from '../../types'
 
 type CustomCalendarProps = {
   //
@@ -20,20 +20,16 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   /** Property */
   const { ...others } = props
 
-  const info = useSelector((state: RootState) => state.addCalendar)
+  const calendarInfo = useSelector((state: RootState) => state.addCalendar.info)
 
-  const [config, setConfig] = useState<CalendarInput>({
-    id: crypto.randomUUID(),
+  const [config, setConfig] = useState<CalendarInfoType>({
+    id: crypto.randomUUID().toString(),
     title: '',
-    start: '',
-    end: '',
-    memo: '',
-    color: '#000'
+    start: new Date(),
+    end: new Date(),
+    url: '',
+    backgroundColor: ''
   })
-
-  // const [currentEvents, setCurrentEvents] = useState<EventApi[]>([])
-
-  // const todayStr = new Date().toISOString().replace(/T.*$/, '') // YYYY-MM-DD format
 
   const [customTitle, setCustomTitle] = useState('')
 
@@ -65,19 +61,21 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     [config]
   )
 
-  console.log('calendarInfo >> ', info.calendarInfo)
   const handleEventClick = useCallback(
     (data: EventClickArg) => {
-      // calendarInfo.map((info) => {
-      //   if (info.id === data.event.id) {
-      //     alert(info.memo)
-      //   }
-      //
-      //   return undefined
-      // })
+      calendarInfo.map((item) => {
+        if (item.id === data.event.id) {
+          console.log(item)
+          //   alert(item.memo)
+        }
+
+        return undefined
+      })
     },
-    [info.calendarInfo]
+    [calendarInfo]
   )
+
+  console.log('calendarInfo >> ', calendarInfo)
 
   /** Render */
   return (
@@ -102,7 +100,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
           initialView="dayGridMonth"
           selectable={true}
           editable={true}
-          events={info.calendarInfo}
+          // events={calendarInfo}
           locales={allLocales}
           locale="ko"
           select={handleDateSelect}
