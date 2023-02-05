@@ -26,12 +26,10 @@ export const DateForm = styled((props: DateFormProps) => {
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       const { name, value } = e.target
 
-      // if (name && value) {
       setFormInfo({
         ...formInfo,
         [name]: value
       })
-      // }
     },
     [formInfo]
   )
@@ -68,17 +66,17 @@ export const DateForm = styled((props: DateFormProps) => {
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="startStr"
+        name="start"
         label="시작 날짜"
-        value={formInfo.startStr ?? ''}
+        value={formInfo.start ?? ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="endStr"
+        name="end"
         label="마지막 날짜"
-        value={formInfo.endStr ?? ''}
+        value={formInfo.end ?? ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}

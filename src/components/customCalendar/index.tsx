@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Box, TextField, styled, css, Typography, Divider } from '@mui/material'
-// import { useSelector } from 'react-redux'
 
 import FullCalendar from '@fullcalendar/react'
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core'
@@ -25,14 +24,13 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   ) as CalendarContextType
 
   const [formInfo, setFormInfo] = useState<CalendarInfoType>({
+    id: crypto.randomUUID(),
     title: '',
-    startStr: '',
-    endStr: '',
+    start: '',
+    end: '',
     display: '',
     backgroundColor: ''
   })
-
-  console.log('formInfo > ', formInfo)
 
   /** Function */
   const handleDateSelect = useCallback(
@@ -75,8 +73,9 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     // })
   }, [])
 
-  console.log(calendarInfo)
-
+  useEffect(() => {
+    console.log(calendarInfo)
+  }, [calendarInfo])
   /** Render */
   return (
     <Box {...others}>
@@ -109,7 +108,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
           initialView="dayGridMonth"
           selectable={true}
           editable={true}
-          // events={calendarInfo}
+          events={calendarInfo}
           locales={allLocales}
           locale="ko"
           select={handleDateSelect}

@@ -1,16 +1,18 @@
 import { EventApi } from '@fullcalendar/core'
 
-export type CalendarInfoType = Partial<EventApi>
+// export type CalendarInfoType = Partial<EventApi>
+export type CalendarInfoType = {
+  id: string
+  title: string
+  start: string
+  end: string
+  display: string
+  backgroundColor: string
+}
 
 export type CalendarContextType = {
   calendarInfo: CalendarInfoType[]
-  saveCalendarInfo: (todo: CalendarInfoType) => void
-  updateCalendarInfo: (
-    id: string,
-    title: string,
-    startStr: string,
-    endStr: string,
-    display: string,
-    backgroundColor: string
-  ) => void
+  saveCalendarInfo: (info: CalendarInfoType) => void
+  updateCalendarInfo: (id: string) => void
+  removeCalendarInfo: (id: string) => void
 }
