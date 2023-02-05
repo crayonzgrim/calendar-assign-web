@@ -4,10 +4,11 @@ import { Box, styled, css } from '@mui/material'
 
 import { Body, CustomCalendar, Header } from './components'
 import { Home } from './components/home'
+import { CalendarProvider } from './context/calendarContext'
 
 const App = styled(() => {
   return (
-    <Box>
+    <CalendarProvider>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -16,7 +17,7 @@ const App = styled(() => {
         </Routes>
         <Body />
       </BrowserRouter>
-    </Box>
+    </CalendarProvider>
   )
 })(({ theme }) => {
   return css``

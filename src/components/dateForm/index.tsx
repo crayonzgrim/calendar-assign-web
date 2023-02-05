@@ -1,70 +1,58 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { styled, css, Box, Button } from '@mui/material'
-import { useDispatch, useSelector } from 'react-redux'
-import { DateSelectArg, EventApi } from '@fullcalendar/core'
+import { DateSelectArg } from '@fullcalendar/core'
 
 import { TextField } from '../textField'
-import { RootState } from '../../redux/store'
-import { addInfo } from '../../redux/calendarInfo'
-import { CalendarInfoType } from '../../types'
+import { CalendarContextType, CalendarInfoType } from '../../types'
+import { CalendarContext } from '../../context'
 
 type DateFormProps = {
-  config: CalendarInfoType
-  setConfig: (value: CalendarInfoType) => void
-
+  // info: CalendarInfoType
+  formInfo: CalendarInfoType
+  setFormInfo: (value: CalendarInfoType) => void
   handleDateSelect: (selectInfo: DateSelectArg) => void
-
-  customTitle: string
-  setCustomTitle: (value: string) => void
 }
 
 export const DateForm = styled((props: DateFormProps) => {
   /** Property */
-  const {
-    config,
-    setConfig,
+  const { formInfo, setFormInfo, handleDateSelect, ...others } = props
 
-    handleDateSelect,
-
-    customTitle,
-    setCustomTitle,
-    ...others
-  } = props
-
-  const dispatch = useDispatch()
-
-  const calendarInfo = useSelector((state: RootState) => state.addCalendar)
+  const { calendarInfo, saveCalendarInfo, updateCalendarInfo } = useContext(
+    CalendarContext
+  ) as CalendarContextType
 
   /** Function */
   const handleChangeField = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      const name = e.target.name
-      const value = e.target.value
+      const { name, value } = e.target
 
-      console.log(value)
-      if (name === 'start' || name === 'end') {
-        setConfig({
-          ...config,
-          [name]: new Date(value)
-        })
-      } else {
-        setConfig({
-          ...config,
-          [name]: value
-        })
-      }
+      // if (name && value) {
+      setFormInfo({
+        ...formInfo,
+        [name]: value
+      })
+      // }
     },
-    [config]
+    [formInfo]
   )
 
-  const handleAddData = useCallback(() => {
-    // dispatch(addInfo(config))
-  }, [config])
+  const handleAddInfo = useCallback(
+    (e: React.FormEvent, formInfo: CalendarInfoType) => {
+      e.preventDefault()
+
+      if (formInfo) {
+        saveCalendarInfo(formInfo)
+      }
+    },
+    [formInfo]
+  )
 
   /** Render */
   return (
     <Box
       {...others}
+      component="form"
+      onSubmit={(e) => handleAddInfo(e, formInfo)}
       sx={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -75,39 +63,39 @@ export const DateForm = styled((props: DateFormProps) => {
       <TextField
         name="title"
         label="제목"
-        value={config.title}
+        value={formInfo.title ?? ''}
         required={false}
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="start"
+        name="startStr"
         label="시작 날짜"
-        value={config.start || ''}
+        value={formInfo.startStr ?? ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="end"
+        name="endStr"
         label="마지막 날짜"
-        value={config.end || ''}
+        value={formInfo.endStr ?? ''}
         placeholder={'yyyy-MM-dd'}
         required={true}
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="memo"
+        name="display"
         label="메모"
-        value={config.url}
+        value={formInfo.display ?? ''}
         multiline={true}
         required={false}
         onChange={(e) => handleChangeField(e)}
       />
       <TextField
-        name="color"
-        label="색상"
+        name="backgroundColor"
+        // label="색상"
         type={'color'}
-        value={config.backgroundColor}
+        value={formInfo.backgroundColor ?? '#000'}
         required={false}
         onChange={(e) => handleChangeField(e)}
       />
@@ -122,7 +110,6 @@ export const DateForm = styled((props: DateFormProps) => {
         <Button
           type="submit"
           variant={'contained'}
-          onClick={handleAddData}
           sx={{ mt: 2, width: '100px', ml: 'auto' }}
         >
           추가

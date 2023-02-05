@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { Box, TextField, styled, css, Typography, Divider } from '@mui/material'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 
 import FullCalendar from '@fullcalendar/react'
-import { DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core'
+import { DateSelectArg, EventClickArg } from '@fullcalendar/core'
 import allLocales from '@fullcalendar/core/locales-all'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
 import { DateForm } from '../dateForm'
-import { RootState } from '../../redux/store'
-import { CalendarInfoType } from '../../types'
+import { CalendarContextType, CalendarInfoType } from '../../types'
+import { CalendarContext } from '../../context'
 
 type CustomCalendarProps = {
   //
@@ -20,18 +20,19 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   /** Property */
   const { ...others } = props
 
-  const calendarInfo = useSelector((state: RootState) => state.addCalendar.info)
+  const { calendarInfo, saveCalendarInfo, updateCalendarInfo } = useContext(
+    CalendarContext
+  ) as CalendarContextType
 
-  const [config, setConfig] = useState<CalendarInfoType>({
-    id: crypto.randomUUID().toString(),
+  const [formInfo, setFormInfo] = useState<CalendarInfoType>({
     title: '',
-    start: new Date(),
-    end: new Date(),
-    url: '',
+    startStr: '',
+    endStr: '',
+    display: '',
     backgroundColor: ''
   })
 
-  const [customTitle, setCustomTitle] = useState('')
+  console.log('formInfo > ', formInfo)
 
   /** Function */
   const handleDateSelect = useCallback(
@@ -48,44 +49,52 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
       //     end: selectInfo.endStr,
       //     allDay: selectInfo.allDay
 
-      if (config) {
+      if (formInfo) {
         calendarApi.addEvent({
           id: crypto.randomUUID(),
-          title: config.title,
+          // title: formInfo.title,
+          title: '',
           start: selectInfo.start,
           end: selectInfo.end,
           allDay: selectInfo.allDay
         })
       }
     },
-    [config]
+    [formInfo]
   )
 
-  const handleEventClick = useCallback(
-    (data: EventClickArg) => {
-      calendarInfo.map((item) => {
-        if (item.id === data.event.id) {
-          console.log(item)
-          //   alert(item.memo)
-        }
+  const handleEventClick = useCallback((data: EventClickArg) => {
+    console.log('data > ', data)
+    // calendarInfo.map((item) => {
+    //   if (item.id === data.event.id) {
+    //     console.log(item)
+    //     //   alert(item.memo)
+    //   }
+    //
+    //   return undefined
+    // })
+  }, [])
 
-        return undefined
-      })
-    },
-    [calendarInfo]
-  )
-
-  console.log('calendarInfo >> ', calendarInfo)
+  console.log(calendarInfo)
 
   /** Render */
   return (
     <Box {...others}>
+      {/* {calendarInfo.map((info, index) => { */}
+      {/*   return ( */}
+      {/*     <DateForm */}
+      {/*       key={index} */}
+      {/*       info={info} */}
+      {/*       formInfo={formInfo} */}
+      {/*       setFormInfo={setFormInfo} */}
+      {/*       handleDateSelect={handleDateSelect} */}
+      {/*     /> */}
+      {/*   ) */}
+      {/* })} */}
       <DateForm
-        config={config}
-        setConfig={setConfig}
+        formInfo={formInfo}
+        setFormInfo={setFormInfo}
         handleDateSelect={handleDateSelect}
-        customTitle={customTitle}
-        setCustomTitle={setCustomTitle}
       />
 
       <Divider
