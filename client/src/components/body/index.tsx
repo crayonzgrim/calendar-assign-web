@@ -1,18 +1,22 @@
 import React from 'react'
-import { Box, styled, css } from '@mui/material'
+import { Box, styled, css, Typography } from '@mui/material'
 
 type BodyProps = {
-  //
+  display?: string
 }
 
 export const Body = styled((props: BodyProps) => {
   /** Property */
-  const { ...others } = props
+  const { display, ...others } = props
 
   /** Function */
 
   /** Render */
-  return <Box {...others}>Body Section</Box>
+  return (
+    <Box {...others}>
+      <Typography>{display ?? ''}</Typography>
+    </Box>
+  )
 })(({ theme }) => {
   return css`
     margin-top: 20px;

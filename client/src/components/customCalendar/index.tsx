@@ -10,6 +10,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { DateForm } from '../dateForm'
 import { CalendarContextType, CalendarInfoType } from '../../types'
 import { CalendarContext } from '../../context'
+import { Accordion } from '../Accordian'
 
 type CustomCalendarProps = {
   //
@@ -32,6 +33,18 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     backgroundColor: ''
   })
 
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
+
+  const [memo, setMemo] = useState<string>('')
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   /** Function */
   const handleDateSelect = useCallback(
     (selectInfo: DateSelectArg) => {
@@ -39,6 +52,8 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
       const calendarApi = selectInfo.view.calendar
 
       calendarApi.unselect()
+
+      // console.log('selectIno >>>> ', selectInfo)
 
       // calendarApi.addEvent(info)
       //     id: new Date().toString(),
@@ -61,36 +76,27 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
     [formInfo]
   )
 
-  const handleEventClick = useCallback((data: EventClickArg) => {
-    console.log('data > ', data)
-    // calendarInfo.map((item) => {
-    //   if (item.id === data.event.id) {
-    //     console.log(item)
-    //     //   alert(item.memo)
-    //   }
-    //
-    //   return undefined
-    // })
-  }, [])
+  const handleEventClick = useCallback(
+    (data: EventClickArg) => {
+      calendarInfo.map((item) => {
+        if (item.id === data.event.id) {
+          console.log(item.display)
+          setMemo(item.display)
+        }
+
+        return undefined
+      })
+    },
+    [calendarInfo, memo]
+  )
 
   useEffect(() => {
-    console.log(calendarInfo)
+    // console.log(calendarInfo)
   }, [calendarInfo])
   /** Render */
   return (
-    <Box {...others}>
-      {/* {calendarInfo.map((info, index) => { */}
-      {/*   return ( */}
-      {/*     <DateForm */}
-      {/*       key={index} */}
-      {/*       info={info} */}
-      {/*       formInfo={formInfo} */}
-      {/*       setFormInfo={setFormInfo} */}
-      {/*       handleDateSelect={handleDateSelect} */}
-      {/*     /> */}
-      {/*   ) */}
-      {/* })} */}
-      <DateForm
+    <Box {...others} sx={{ height: '500px', px: 4 }}>
+      <Accordion
         formInfo={formInfo}
         setFormInfo={setFormInfo}
         handleDateSelect={handleDateSelect}
@@ -101,7 +107,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
         sx={{ border: '0.5px solid lightGray', mb: 5, mx: 6 }}
       />
 
-      <Box sx={{ px: 4 }}>
+      <Box>
         <FullCalendar
           // plugins={[dayGridPlugin, interactionPlugin]}
           plugins={[dayGridPlugin]}
@@ -114,6 +120,10 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
           select={handleDateSelect}
           eventClick={handleEventClick}
         />
+      </Box>
+
+      <Box sx={{ mt: 2, border: '1px solid lightGray' }}>
+        <Typography>{memo ?? ''}</Typography>
       </Box>
     </Box>
   )
