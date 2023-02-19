@@ -1,22 +1,17 @@
+// youtube.com/watch?v=5Y5QKfxTErU
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, RouterProvider } from 'react-router-dom'
 import { styled, css } from '@mui/material'
 
-import { Body, CustomCalendar, Header } from './components'
+import { CustomCalendar, Header } from './components'
 import { Home } from './components/home'
 import { CalendarProvider } from './context/calendarContext'
+import { router } from './router'
 
 const App = styled(() => {
   return (
     <CalendarProvider>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/calendar" element={<CustomCalendar />} />
-        </Routes>
-        <Body />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </CalendarProvider>
   )
 })(({ theme }) => {

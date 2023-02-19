@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { Box, TextField, styled, css, Typography, Divider } from '@mui/material'
+import axios from 'axios'
 
 import FullCalendar from '@fullcalendar/react'
 import { DateSelectArg, EventClickArg } from '@fullcalendar/core'
@@ -11,6 +12,8 @@ import { DateForm } from '../dateForm'
 import { CalendarContextType, CalendarInfoType } from '../../types'
 import { CalendarContext } from '../../context'
 import { Accordion } from '../Accordian'
+import { BASE_URL } from '../../api'
+import { Layout } from '../Layout'
 
 type CustomCalendarProps = {
   //
@@ -25,7 +28,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   ) as CalendarContextType
 
   const [formInfo, setFormInfo] = useState<CalendarInfoType>({
-    id: crypto.randomUUID(),
+    // id: crypto.randomUUID(),
     title: '',
     start: '',
     end: '',
@@ -46,6 +49,14 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   }
 
   /** Function */
+  // const fetchHandler = async () => {
+  //   await axios.get(BASE_URL).then((res) => setFormInfo(res.data.calendarInfo))
+  // }
+  //
+  // useEffect(() => {
+  //   fetchHandler()
+  // }, [])
+
   const handleDateSelect = useCallback(
     (selectInfo: DateSelectArg) => {
       // let title = prompt('hello world')?.trim()
@@ -53,7 +64,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
       calendarApi.unselect()
 
-      // console.log('selectIno >>>> ', selectInfo)
+      console.log('calendarApi > ', calendarApi)
 
       // calendarApi.addEvent(info)
       //     id: new Date().toString(),
@@ -79,34 +90,21 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
   const handleEventClick = useCallback(
     (data: EventClickArg) => {
       calendarInfo.map((item) => {
-        if (item.id === data.event.id) {
-          console.log(item.display)
+        const clickedId = data.event?._def?.extendedProps?._id
+
+        if (item._id === clickedId) {
+          console.log('item >> ', item)
           setMemo(item.display)
         }
-
         return undefined
       })
     },
     [calendarInfo, memo]
   )
 
-  useEffect(() => {
-    // console.log(calendarInfo)
-  }, [calendarInfo])
   /** Render */
   return (
-    <Box {...others} sx={{ height: '500px', px: 4 }}>
-      <Accordion
-        formInfo={formInfo}
-        setFormInfo={setFormInfo}
-        handleDateSelect={handleDateSelect}
-      />
-
-      <Divider
-        orientation={'horizontal'}
-        sx={{ border: '0.5px solid lightGray', mb: 5, mx: 6 }}
-      />
-
+    <Layout>
       <Box>
         <FullCalendar
           // plugins={[dayGridPlugin, interactionPlugin]}
@@ -122,13 +120,24 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
         />
       </Box>
 
-      <Box sx={{ mt: 2, border: '1px solid lightGray' }}>
-        <Typography>{memo ?? ''}</Typography>
-      </Box>
-    </Box>
+      {memo && (
+        <Box sx={{ mt: 4, border: '1px solid lightGray', height: '50px' }}>
+          <Typography>{memo ?? ''}</Typography>
+        </Box>
+      )}
+
+      <Divider
+        orientation={'horizontal'}
+        sx={{ border: '0.5px solid lightGray', mt: 5, mb: 5, mx: 6 }}
+      />
+
+      <Accordion
+        formInfo={formInfo}
+        setFormInfo={setFormInfo}
+        handleDateSelect={handleDateSelect}
+      />
+    </Layout>
   )
 })(({ theme }) => {
-  return css`
-    height: 100%;
-  `
+  return css``
 })

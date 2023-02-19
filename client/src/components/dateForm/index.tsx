@@ -5,6 +5,8 @@ import { DateSelectArg } from '@fullcalendar/core'
 import { TextField } from '../textField'
 import { CalendarContextType, CalendarInfoType } from '../../types'
 import { CalendarContext } from '../../context'
+import axios from 'axios'
+import { BASE_URL } from '../../api'
 
 type DateFormProps = {
   // info: CalendarInfoType
@@ -17,9 +19,9 @@ export const DateForm = styled((props: DateFormProps) => {
   /** Property */
   const { formInfo, setFormInfo, handleDateSelect, ...others } = props
 
-  const { calendarInfo, saveCalendarInfo, updateCalendarInfo } = useContext(
-    CalendarContext
-  ) as CalendarContextType
+  // const { calendarInfo, saveCalendarInfo, updateCalendarInfo } = useContext(
+  //   CalendarContext
+  // ) as CalendarContextType
 
   /** Function */
   const handleChangeField = useCallback(
@@ -34,12 +36,25 @@ export const DateForm = styled((props: DateFormProps) => {
     [formInfo]
   )
 
+  const sendRequest = async (formInfo: CalendarInfoType) => {
+    await axios
+      .post(BASE_URL, {
+        title: formInfo.title,
+        start: formInfo.start,
+        end: formInfo.end,
+        display: formInfo.display,
+        backgroundColor: formInfo.backgroundColor
+      })
+      .then((res) => res.data)
+  }
+
   const handleAddInfo = useCallback(
     (e: React.FormEvent, formInfo: CalendarInfoType) => {
       e.preventDefault()
 
       if (formInfo) {
-        saveCalendarInfo(formInfo)
+        // saveCalendarInfo(formInfo)
+        sendRequest(formInfo)
       }
     },
     [formInfo]

@@ -2,7 +2,7 @@ import { EventApi } from '@fullcalendar/core'
 
 // export type CalendarInfoType = Partial<EventApi>
 export type CalendarInfoType = {
-  id: string
+  _id?: string
   title: string
   start: string
   end: string

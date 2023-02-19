@@ -16,8 +16,8 @@ const app: Express = express();
 
 const PORT = process.env.PORT;
 
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 app.use("/", getAllRouter);
 
 mongoose.set("strictQuery", true);

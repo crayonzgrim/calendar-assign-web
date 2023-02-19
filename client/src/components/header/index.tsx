@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, TextField, styled, css, Typography, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { Layout } from '../Layout'
 
 type HeaderProps = {
   //
@@ -14,7 +15,7 @@ export const Header = styled((props: HeaderProps) => {
 
   /** Render */
   return (
-    <Box {...others}>
+    <Layout {...others}>
       <Typography> Header section </Typography>
       <Box>
         <Link to="/" style={{ marginRight: '10px', textDecoration: 'none' }}>
@@ -31,20 +32,30 @@ export const Header = styled((props: HeaderProps) => {
             Calendar
           </Button>
         </Link>
+
+        <Link
+          to="/add-calendar"
+          style={{ marginRight: '10px', textDecoration: 'none' }}
+        >
+          <Button variant="contained" size="small">
+            Add Calendar
+          </Button>
+        </Link>
+
+        <Link
+          to="/calendar-lists"
+          style={{ marginRight: '10px', textDecoration: 'none' }}
+        >
+          <Button variant="contained" size="small">
+            Calendar Lists
+          </Button>
+        </Link>
       </Box>
-    </Box>
+    </Layout>
   )
 })(({ theme }) => {
   return css`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
     width: 100%;
-    height: 5rem;
-    border: 1px dashed red;
-
-    margin-bottom: 20px;
+    margin-bottom: 3rem;
   `
 })
