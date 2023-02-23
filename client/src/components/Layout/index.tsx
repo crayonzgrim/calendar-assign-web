@@ -7,9 +7,6 @@ type LayoutProps = {
 
 const Container = styled(Box)(({ theme }) => {
   return css`
-    margin: 0 auto;
-    padding: 0 150px;
-
     ${theme.breakpoints.down('xl')} {
       border: 2px dashed red;
     }

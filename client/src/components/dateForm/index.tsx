@@ -9,7 +9,6 @@ import axios from 'axios'
 import { BASE_URL } from '../../api'
 
 type DateFormProps = {
-  // info: CalendarInfoType
   formInfo: CalendarInfoType
   setFormInfo: (value: CalendarInfoType) => void
   handleDateSelect: (selectInfo: DateSelectArg) => void

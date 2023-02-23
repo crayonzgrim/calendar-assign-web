@@ -64,7 +64,7 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
 
       calendarApi.unselect()
 
-      console.log('calendarApi > ', calendarApi)
+      // console.log('calendarApi > ', calendarApi)
 
       // calendarApi.addEvent(info)
       //     id: new Date().toString(),
@@ -93,7 +93,6 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
         const clickedId = data.event?._def?.extendedProps?._id
 
         if (item._id === clickedId) {
-          console.log('item >> ', item)
           setMemo(item.display)
         }
         return undefined
@@ -120,16 +119,14 @@ export const CustomCalendar = styled((props: CustomCalendarProps) => {
         />
       </Box>
 
-      {memo && (
-        <Box sx={{ mt: 4, border: '1px solid lightGray', height: '50px' }}>
-          <Typography>{memo ?? ''}</Typography>
-        </Box>
-      )}
+      <Box sx={{ mt: 4, mb: 4, border: '1px solid lightGray', height: '50px' }}>
+        <Typography>{memo ?? ''}</Typography>
+      </Box>
 
-      <Divider
-        orientation={'horizontal'}
-        sx={{ border: '0.5px solid lightGray', mt: 5, mb: 5, mx: 6 }}
-      />
+      {/* <Divider */}
+      {/*   orientation={'horizontal'} */}
+      {/*   sx={{ border: '0.5px solid lightGray', mt: 5, mb: 5, mx: 6 }} */}
+      {/* /> */}
 
       <Accordion
         formInfo={formInfo}
